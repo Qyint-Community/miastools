@@ -5,8 +5,6 @@ intents = discord.Intents.all()
 import asyncio
 from discord.utils import get
 from discord import FFmpegPCMAudio
-from youtube_dl import YoutubeDL
-import ytdl
 import random
 import datetime
 from datetime import datetime
@@ -26,11 +24,11 @@ async def on_ready():
 #
 @client.command(aliases=['help', 'h', 'i'])
 async def info(ctx):
-    await ctx.send('» open source discord.py bot\n» v. 8.0.0\n» <https://qyint-community.github.io>\n»\n» list of modules:\n» **sysinfo**\n» `>ping`, `>info`\n» **randomx**\n» `>randomx`\n» **lmr**\n» `>lmr`, `>archwiki`\n» **audio**\n» `>a1\n» **music**\n» `>play [song], `>stop`, `>leave`, `>nowplaying`, (`loop, queueloop & shuffle are broken!`)\n» **roles**\n» `>roles`\n» **emojis**\n» `>send [emojiname]`\n» **owow**\n» `>owow`\n» **moddms**\n» *(qyint only)*\n» `>initmoddm [user] [de/en]`, `>moddm [user] (message)`\n» \n» **`>dm [message]` to send modmail**')
+    await ctx.send('» open source discord.py bot\n» v. 8.1.0\n» <https://qyint-community.github.io>\n»\n» list of modules:\n» **sysinfo**\n» `>ping`, `>info`\n» **randomx**\n» `>randomx`\n» **lmr**\n» `>lmr`, `>archwiki`\n» **audio**\n» `>a1\n» **music**\n» **emojis**\n» `>send [emojiname]`\n» **owow**\n» `>owow`\n» **moddms**\n» *(qyint only)*\n» `>initmoddm [user] [de/en]`, `>moddm [user] (message)`\n» \n» **`>dm [message]` to send modmail**')
 @client.command(aliases=['ping', 'p', 'f', 'pfetch'])
 async def fetch(ctx):
     timestamp = datetime.now()
-    await ctx.send(f'\n» mtv.: `v8.0.0`\n» ping: `{round(client.latency * 1000)}ms`\n» time: `{timestamp.strftime(r"%H:%M @ %d.%m.%Y")}`\n» uuid: `{ctx.author.id}`')
+    await ctx.send(f'\n» mtv.: `v8.1.0`\n» ping: `{round(client.latency * 1000)}ms`\n» time: `{timestamp.strftime(r"%H:%M @ %d.%m.%Y")}`\n» uuid: `{ctx.author.id}`')
 @client.command(aliases=['nfetch', 'neof', 'nf', 'neo', 'n'])
 async def neofetch(ctx):
     timestamp = datetime.now()
@@ -151,56 +149,6 @@ async def a1(ctx):
 #
 # MUSIC
 #
-#@client.command(pass_context=True, aliases=['play'])
-#async def music(ctx, url):
-#    await ctx.send('» loading...\n» (this might take a while.)\n»[make sure youre in a voice channel and provided a youtube link!]\n» playlists are not supported! work in progress')
-#    YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist':'True'}
-#    FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
-#    voice = get(client.voice_clients, guild=ctx.guild)
-#    with YoutubeDL(YDL_OPTIONS) as ydl:
-#        info = ydl.extract_info(url, download=False)
-#        URL = info['formats'][0]['url']
-#    channel = ctx.message.author.voice.channel
-#    vc = await channel.connect()
-#    vc.play(FFmpegPCMAudio(URL, **FFMPEG_OPTIONS))
-#
-#@client.command(aliases=['leave', 'stop', 'fuckoff'])
-#async def pause(ctx):
-#    await ctx.send('» left!')
-#    vc = discord.utils.get(client.voice_clients, guild=ctx.guild)
-#    await vc.disconnect()
-
-from discordSuperUtils import MusicManager
-MusicManager = MusicManager(client, spotify_support=False)
-
-@client.command(aliases=['music', 'sing', 'song']))
-async def play(ctx, *, query: str):
-    await ctx.send('» loading...\n» *this might take a while*')
-    await MusicManager.join(ctx)
-    player = await MusicManager.create_player(query)
-    await MusicManager.queue_add(player=player, ctx=ctx)
-    if not await MusicManager.play(ctx):
-        await ctx.send("» added!")
-@client.command()
-async def loop(ctx):
-    is_loop = await MusicManager.loop(ctx)
-    await ctx.send(f"» loop toggled to `{is_loop}`")
-@client.command(aliases=['pause']))
-async def stop(ctx):
-    ctx.voice_client.stop()
-    await ctx.send('» stopped!')
-@client.command(aliases=['fuckoff', 'disconnect'])
-async def leave(ctx):
-    if await MusicManager.leave(ctx):
-        await ctx.send("» left!")
-@client.command(aliases=['next']))
-async def skip(ctx, index: int = None):
-    await MusicManager.skip(ctx, index)
-    await ctx.send('» skipped!')
-@client.command(aliases=['nowplaying', 'currentlyplaying', 'playing']))
-async def np(ctx):
-    if player := await MusicManager.now_playing(ctx):
-        await ctx.send(f"» now playing: `{player}`")
 
 
 #
